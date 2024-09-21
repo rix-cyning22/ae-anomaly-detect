@@ -5,10 +5,10 @@ from time import time
 import matplotlib.pyplot as plt 
 
 WINDOW_SIZE = 60 
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 DATA_POINTS = 1e7
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-NUM_EPOCHS = 100
+NUM_EPOCHS = 40
 
 auto_encoder = models.AEArch(window_size=WINDOW_SIZE)
 model_name = auto_encoder.__class__.__name__
@@ -18,7 +18,11 @@ model = torch.compile(model)
 optimizer = torch.optim.Adam(auto_encoder.parameters(), lr=1e-3)
 loss_criterion = torch.nn.MSELoss()
 
-train_loader, val_loader = utils.get_time_series_data(DATA_POINTS, val_size=0.2)
+train_loader, val_loader = utils.get_time_series_data(
+    DATA_POINTS, 
+    batch_size=BATCH_SIZE, 
+    val_size=0.2
+)
 train_size = len(train_loader)
 val_size = len(val_loader)
 train_epoch_loss, val_epoch_loss = [], []

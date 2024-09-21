@@ -1,3 +1,6 @@
 *.jpeg
 __pycache__/
 *.pt
+ae/
+cuda-repo-wsl-ubuntu-12-4-local_12.4.0-1_amd64.deb
+wget-log

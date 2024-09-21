@@ -3,11 +3,13 @@ from matplotlib.widgets import Button
 import torch 
 import utils  
 import models
+import matplotlib
+matplotlib.use('TkAgg')
 
 def get_model(window_size, device):
     model = models.AEArch(window_size=window_size)
     model = torch.compile(model)
-    state_dict = torch.load("AEArch-1726935478.2124782-24.pt", weights_only=True)
+    state_dict = torch.load("AEArch-1726948317.1064928-50.pt", weights_only=True)
     model.load_state_dict(state_dict)
     return model.to(device)
 
@@ -44,7 +46,6 @@ if __name__ == "__main__":
     data = utils.generate_random_time_series(num=NUM_TENSORS, window_size=WINDOW_SIZE, device=DEVICE)
     model = get_model(window_size=WINDOW_SIZE, device=DEVICE)
     reconst, anomaly_indices, normal_indices = predict(model, device=DEVICE, threshold=THRESHOLD_FACTOR)
-    print(reconst[23])
     data = data.cpu().numpy()
     
     fig, ax = plt.subplots(figsize=(10, 5))
