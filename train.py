@@ -8,10 +8,10 @@ WINDOW_SIZE = 60
 BATCH_SIZE = 32
 DATA_POINTS = 1e7
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-NUM_EPOCHS = 20
+NUM_EPOCHS = 100
 
 auto_encoder = models.AEArch(window_size=WINDOW_SIZE)
-model_name = auto_encoder.__class__.__name__.lower()
+model_name = auto_encoder.__class__.__name__
 model = auto_encoder.to(device=DEVICE)
 model = torch.compile(model)
 
@@ -24,7 +24,7 @@ val_size = len(val_loader)
 train_epoch_loss, val_epoch_loss = [], []
 
 start_time = time()
-early_stopping = utils.EarlyStopping(patience=5, verbose=True)
+# early_stopping = utils.EarlyStopping(patience=5, verbose=True)
 
 for epoch in range(NUM_EPOCHS):
     print(f"Epoch {epoch+1}")
@@ -59,10 +59,10 @@ for epoch in range(NUM_EPOCHS):
     val_epoch_loss.append(mean_val_loss)
     print(f"Training Loss: {mean_running_loss:.4f}; Validation Loss: {mean_val_loss:.4f}")  
     
-    early_stopping(mean_val_loss)
-    if early_stopping.early_stop:
-        print(f"Stopping training early at epoch {epoch+1}.")
-        break
+    # early_stopping(mean_val_loss)
+    # if early_stopping.early_stop:
+    #     print(f"Stopping training early at epoch {epoch+1}.")
+    #     break
 
 plt.plot(train_epoch_loss, label='Training Loss')
 plt.plot(val_epoch_loss, label='Validation Loss')

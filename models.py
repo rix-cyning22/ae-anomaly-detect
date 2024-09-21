@@ -9,9 +9,11 @@ class AEArch(nn.Module):
             nn.Linear(32, 16),
             nn.SELU(),
             nn.Linear(16, 8),
+            nn.SELU(),
+            nn.Linear(8, 4),
             nn.SELU()
         )
-        self.encoded_space = nn.Linear(8, 4)
+        self.encoded_space = nn.Linear(4, 4)
         self.decoder = nn.Sequential(
             nn.Linear(4, 8),
             nn.SELU(),
